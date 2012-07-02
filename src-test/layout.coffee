@@ -50,17 +50,19 @@ app.get '/about', useBaseView, (req, res) ->
     data: (cb) -> cb null, message: "We are awesome!"
   res.renderLayout()
 
-http.createServer(app).listen 5000
+server = http.createServer(app).listen 5000
+
+
+assertEqualURLFile = (url, filePath, cb) ->
+  request.get(url).end (res) ->
+    expected = fs.readFileSync filePath, 'utf8'
+    assert.equal res.text, expected
+    cb()
+
+assertView = (urlPath, fileName, cb) ->
+  assertEqualURLFile 'http://localhost:5000' + urlPath,  __dirname + '/expected-results/' + fileName, cb
 
 describe 'layout', () ->
   describe 'render', () ->
-    it 'should render index.html', (done) ->
-      request.get('http://localhost:5000/').end (res) ->
-        expected = fs.readFileSync __dirname + '/expected-results/index.html', 'utf8'
-        assert.equal res.text, expected
-        done()
-    it 'should render about.html', (done) ->
-      request.get('http://localhost:5000/about').end (res) ->
-        expected = fs.readFileSync __dirname + '/expected-results/about.html', 'utf8'
-        assert.equal res.text, expected
-        done()
+    it 'should render index.html', (done) -> assertView '/', 'index.html', done
+    it 'should render about.html', (done) -> assertView '/about', 'about.html', done

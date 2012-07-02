@@ -35,8 +35,8 @@
     };
     res.view('head', {
       template: "head.html",
-      data: function(cb) {
-        return cb(null, headerData);
+      data: function() {
+        return headerData;
       },
       addJs: function(js) {
         return headerData.js = headerData.js.concat(js);
@@ -70,11 +70,9 @@
     res.view('body', {
       template: "{{a}}, {{b}}!",
       renderFun: renderString,
-      data: function(cb) {
-        return cb(null, {
-          a: "hey",
-          b: "ho"
-        });
+      data: {
+        a: "hey",
+        b: "ho"
       }
     });
     return res.renderLayout();

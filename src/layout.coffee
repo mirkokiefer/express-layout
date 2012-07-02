@@ -12,7 +12,8 @@ render = (name, views, renderFun, cb) ->
       mapping = {}
       (mapping[name]=renderedViews[i]) for name, i in requires
       cb null, mapping
-  async.parallel [data, renderRequired], (err, [data, required]) ->
+  evalData = (cb) -> utils.ensure data, cb
+  async.parallel [evalData, renderRequired], (err, [data, required]) ->
     mergedData = utils.merge data, required
     renderFun view.template, mergedData, cb
 

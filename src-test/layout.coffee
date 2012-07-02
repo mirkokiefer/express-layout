@@ -19,7 +19,7 @@ useBaseView = (req, res, next) ->
   headerData = js: [], css: ["/css/main.css"], title: "Default"
   res.view 'head',
     template: "head.html"
-    data: (cb) -> cb null, headerData
+    data: () -> headerData
     addJs: (js) -> headerData.js = headerData.js.concat js
     addCSS: (css) -> headerData.css = headerData.css.concat css
     title: (title) -> headerData.title = title
@@ -42,7 +42,7 @@ app.get '/', useBaseView, (req, res) ->
   res.view 'body',
     template: "{{a}}, {{b}}!"
     renderFun: renderString
-    data: (cb) -> cb null, a: "hey", b: "ho"
+    data: a: "hey", b: "ho"
   res.renderLayout()
 
 app.get '/about', useBaseView, (req, res) ->

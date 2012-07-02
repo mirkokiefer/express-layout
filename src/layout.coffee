@@ -1,12 +1,12 @@
 async = require 'async'
 utils = require 'livelyutils'
 
-render = (name, views, renderFun, cb) ->
+render = (name, views, defaultRenderFun, cb) ->
   view = views[name]
   data = if view.data then view.data else (cb) -> cb null, {}
   requires = if view.requires then view.requires else []
-  renderFun = if view.renderFun then view.renderFun else renderFun
-  mapRequired = (viewName, cb) -> render viewName, views, renderFun, cb
+  renderFun = if view.renderFun then view.renderFun else defaultRenderFun
+  mapRequired = (viewName, cb) -> render viewName, views, defaultRenderFun, cb
   renderRequired = (cb) ->
     async.map requires, mapRequired, (err, renderedViews) ->
       mapping = {}

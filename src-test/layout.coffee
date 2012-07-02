@@ -8,6 +8,9 @@ fs = require 'fs'
 
 layout = require '../lib/layout'
 
+renderString = (template, data, cb) ->
+  cb null, (hogan.compile template).render data
+
 useBaseView = (req, res, next) ->
   res.rootView
     template: "base.html"
@@ -37,7 +40,8 @@ app.get '/', useBaseView, (req, res) ->
   head.addJs ["/js/index.js"]
   head.addCSS ["/css/index.css"]
   res.view 'body',
-    template: "index.html"
+    template: "{{a}}, {{b}}!"
+    renderFun: renderString
     data: (cb) -> cb null, a: "hey", b: "ho"
   res.renderLayout()
 
@@ -64,5 +68,5 @@ assertView = (urlPath, fileName, cb) ->
 
 describe 'layout', () ->
   describe 'render', () ->
-    it 'should render index.html', (done) -> assertView '/', 'index.html', done
+    it 'should render template string', (done) -> assertView '/', 'index.html', done
     it 'should render about.html', (done) -> assertView '/about', 'about.html', done

@@ -1,0 +1,16 @@
+{
+  "name": "express-layout"
+  , "version": "0.0.1"
+  , "dependencies": {
+    "async": "*",
+    "livelyutils": "git://github.com/livelycode/LivelyUtils.git"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "hogan.js": "*",
+    "superagent": "*",
+    "consolidate": "*",
+    "express": "3.0"
+  },
+  "main": "./lib/layout"
+}

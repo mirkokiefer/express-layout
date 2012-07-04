@@ -10,7 +10,7 @@ render = (name, views, defaultRenderFun, cb) ->
   renderRequired = (cb) ->
     async.map requires, mapRequired, (err, renderedViews) ->
       mapping = {}
-      (mapping[name]=renderedViews[i]) for name, i in requires
+      (mapping[requiredName]=renderedViews[i]) for requiredName, i in requires
       cb null, mapping
   evalData = (cb) -> utils.ensure data, cb
   async.parallel [evalData, renderRequired], (err, [data, required]) ->

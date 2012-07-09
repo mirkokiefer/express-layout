@@ -10,7 +10,9 @@ render = (view, defaultRenderFun, cb) ->
   evalData = (cb) -> utils.ensure data, cb
   async.parallel [evalData, renderRequired], (err, [data, required]) ->
     mergedData = utils.merge data, required
-    renderFun view.template, mergedData, cb
+    renderFun view.template, mergedData, (err, res) ->
+      if err then console.error view, err
+      cb err, res
 
 layout = (renderFun) -> (req, res, next) ->
   renderFun = if renderFun then renderFun else (view, options, cb) -> res.render view, options, cb

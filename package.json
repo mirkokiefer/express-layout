@@ -10,7 +10,7 @@
     "hogan.js": "*",
     "superagent": "*",
     "consolidate": "*",
-    "express": "3.0"
+    "express": "4.17"
   },
   "main": "./lib/layout"
 }
